@@ -1,6 +1,7 @@
 import React from 'react';
-import Blog from './components/Blog';
 import blogService from './services/blogs';
+import LoginForm from './components/LoginForm';
+import BlogList from './components/BlogList';
 
 
 export default class App extends React.Component {
@@ -9,6 +10,7 @@ export default class App extends React.Component {
 
     this.state = {
       blogs: [],
+      user: null,
     };
   }
 
@@ -16,16 +18,18 @@ export default class App extends React.Component {
     blogService.getAll().then(blogs => this.setState({ blogs }));
   }
 
+  setUser = user => this.setState({ user });
+
+
   render() {
-    const { blogs } = this.state;
+    const { blogs, user } = this.state;
 
     return (
       <div>
-        <h2>blogs</h2>
         {
-          blogs.map(blog => (
-            <Blog key={blog._id} blog={blog} />
-          ))
+          user
+            ? <BlogList blogs={blogs} name={user.name} />
+            : <LoginForm setUser={this.setUser} />
         }
       </div>
     );
