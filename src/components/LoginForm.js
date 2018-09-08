@@ -1,4 +1,5 @@
 import React from 'react';
+import Notification from './Notification';
 import loginService from '../services/loginService';
 
 
@@ -9,6 +10,7 @@ export default class LoginForm extends React.Component {
     this.state = {
       username: '',
       password: '',
+      error: null,
     };
   }
 
@@ -24,12 +26,15 @@ export default class LoginForm extends React.Component {
       const user = await loginService.login({ username, password });
       setUser(user);
     } catch (ex) {
-      alert('Kirjautuminen ei onnistunut"');
-
       this.setState({
         username: '',
-        password: ''
+        password: '',
+        error: 'Login failed',
       });
+
+      setTimeout(() => {
+        this.setState({ error: null });
+      }, 3000);
     }
   }
 
@@ -39,9 +44,10 @@ export default class LoginForm extends React.Component {
 
     return (
       <div>
+        <Notification type="error" message={this.state.error} />
         <form>
           <div>
-            Käyttäjätunnus:
+            Username:
             <input
               type="text"
               name="username"
@@ -50,7 +56,7 @@ export default class LoginForm extends React.Component {
             />
           </div>
           <div>
-            Salasana:
+            Password:
             <input
               type="password"
               name="password"
@@ -58,7 +64,7 @@ export default class LoginForm extends React.Component {
               onChange={this.handleFieldChange}
             />
           </div>
-          <button onClick={this.login}>Kirjaudu sisään</button>
+          <button onClick={this.login}>Log In</button>
         </form>
       </div>
     );

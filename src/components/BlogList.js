@@ -4,9 +4,9 @@ import Blog from './Blog';
 
 export default ({ blogs, name }) => (
   <div>
-    <h2>blogs</h2>
+    <h2>Blogs</h2>
     <p>
-      {`${name} logged in`}
+      {`${name} logged in.`}
     </p>
     {
       blogs.map(blog => (
