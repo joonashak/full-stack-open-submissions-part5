@@ -1,31 +1,33 @@
-import React from 'react'
-import Blog from './components/Blog'
-import blogService from './services/blogs'
+import React from 'react';
+import Blog from './components/Blog';
+import blogService from './services/blogs';
 
-class App extends React.Component {
+
+export default class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
+
     this.state = {
-      blogs: []
-    }
+      blogs: [],
+    };
   }
 
   componentDidMount() {
-    blogService.getAll().then(blogs =>
-      this.setState({ blogs })
-    )
-  } 
+    blogService.getAll().then(blogs => this.setState({ blogs }));
+  }
 
   render() {
+    const { blogs } = this.state;
+
     return (
       <div>
         <h2>blogs</h2>
-        {this.state.blogs.map(blog => 
-          <Blog key={blog._id} blog={blog}/>
-        )}
+        {
+          blogs.map(blog => (
+            <Blog key={blog._id} blog={blog} />
+          ))
+        }
       </div>
     );
   }
 }
-
-export default App;
