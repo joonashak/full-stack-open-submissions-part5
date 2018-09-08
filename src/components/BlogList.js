@@ -2,12 +2,9 @@ import React from 'react';
 import Blog from './Blog';
 
 
-export default ({ blogs, name }) => (
+export default ({ blogs }) => (
   <div>
     <h2>Blogs</h2>
-    <p>
-      {`${name} logged in.`}
-    </p>
     {
       blogs.map(blog => (
         <Blog key={blog._id} blog={blog} />

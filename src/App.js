@@ -16,9 +16,26 @@ export default class App extends React.Component {
 
   componentDidMount() {
     blogService.getAll().then(blogs => this.setState({ blogs }));
+
+    const authenticatedUser = window.localStorage.getItem('authenticatedUser');
+
+    if (authenticatedUser) {
+      const user = JSON.parse(authenticatedUser);
+      this.setState({ user });
+    }
   }
 
-  setUser = user => this.setState({ user });
+  setUser = user => {
+    this.setState({ user });
+    window.localStorage.setItem('authenticatedUser', JSON.stringify(user));
+  };
+
+  logout = (event) => {
+    event.preventDefault();
+    
+    this.setState({ user: null });
+    window.localStorage.removeItem('authenticatedUser');
+  };
 
 
   render() {
@@ -28,7 +45,15 @@ export default class App extends React.Component {
       <div>
         {
           user
-            ? <BlogList blogs={blogs} name={user.name} />
+            ? (
+              <div>
+                <div>
+                  {`${user.name} logged in.`}
+                  <button onClick={this.logout}>Log Out</button>
+                </div>
+                <BlogList blogs={blogs} />
+              </div>
+            )
             : <LoginForm setUser={this.setUser} />
         }
       </div>
