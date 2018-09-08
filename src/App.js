@@ -2,6 +2,7 @@ import React from 'react';
 import blogService from './services/blogs';
 import LoginForm from './components/LoginForm';
 import BlogList from './components/BlogList';
+import NewBlog from './components/NewBlog';
 
 
 export default class App extends React.Component {
@@ -22,20 +23,25 @@ export default class App extends React.Component {
     if (authenticatedUser) {
       const user = JSON.parse(authenticatedUser);
       this.setState({ user });
+      blogService.setToken(user.token);
     }
   }
 
   setUser = user => {
     this.setState({ user });
     window.localStorage.setItem('authenticatedUser', JSON.stringify(user));
+    blogService.setToken(user.token);
   };
 
   logout = (event) => {
     event.preventDefault();
-    
+
     this.setState({ user: null });
     window.localStorage.removeItem('authenticatedUser');
+    blogService.removeToken();
   };
+
+  addBlog = blog => this.setState(prevState => ({ blogs: [...prevState.blogs, blog] }));
 
 
   render() {
@@ -51,6 +57,7 @@ export default class App extends React.Component {
                   {`${user.name} logged in.`}
                   <button onClick={this.logout}>Log Out</button>
                 </div>
+                <NewBlog addBlog={this.addBlog} />
                 <BlogList blogs={blogs} />
               </div>
             )
