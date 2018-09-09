@@ -56,22 +56,22 @@ export default class Blog extends React.Component {
 
     return (
       <div style={blogStyle}>
-        <div onClick={this.toggleDetails}>
+        <div onClick={this.toggleDetails} className="blog-heading">
           {`${title} / ${author}`}
         </div>
-        <div style={{ display: expanded ? '' : 'none' }}>
-          <div>
+        <div className="hidden" style={{ display: expanded ? '' : 'none' }}>
+          <div className="url">
             <a href={url}>
               {url}
             </a>
           </div>
-          <div>
+          <div className="likes">
             {`${likes} likes`}
             <button onClick={this.like}>
               Like
             </button>
           </div>
-          <div>
+          <div className="user">
             {user ? `Added by ${user.name}` : null}
           </div>
           <div style={{ display: (!user || user.username === loggedInUser.username) ? '' : 'none' }}>
