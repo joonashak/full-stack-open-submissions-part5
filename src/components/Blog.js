@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import blogService from '../services/blogs';
 
 
@@ -83,3 +84,8 @@ export default class Blog extends React.Component {
     );
   }
 }
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  loggedInUser: PropTypes.object.isRequired,
+};
