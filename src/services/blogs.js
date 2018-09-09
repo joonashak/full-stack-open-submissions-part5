@@ -30,10 +30,23 @@ const create = async (newObject) => {
   return response.data;
 };
 
+// Update a blog (PUT)
+const update = async (id, newObject) => {
+  const config = {
+    headers: {
+      Authorization: token,
+    },
+  };
+
+  const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
+  return response.data;
+};
+
 
 export default {
   setToken,
   removeToken,
   getAll,
   create,
+  update,
 };

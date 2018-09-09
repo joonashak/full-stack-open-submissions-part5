@@ -1,4 +1,5 @@
 import React from 'react';
+import blogService from '../services/blogs';
 
 
 export default class Blog extends React.Component {
@@ -7,15 +8,34 @@ export default class Blog extends React.Component {
 
     this.state = {
       expanded: false,
+      likes: props.blog.likes,
     };
   }
 
   toggleDetails = () => this.setState({ expanded: !this.state.expanded });
 
+  like = () => {
+    const {
+      _id,
+      user,
+      likes,
+      ...rest
+    } = this.props.blog;
+
+    const newBlog = {
+      user: user.id,
+      likes: likes + 1,
+      ...rest
+    };
+
+    blogService.update(_id, newBlog);
+    this.setState({ likes: this.state.likes + 1 });
+  };
+
 
   render() {
-    const { expanded } = this.state;
-    const { title, author,likes, url, user } = this.props.blog;
+    const { expanded, likes } = this.state;
+    const { title, author, url, user } = this.props.blog;
 
     const blogStyle = {
       padding: '10 0',
@@ -34,12 +54,12 @@ export default class Blog extends React.Component {
           </div>
           <div>
             {`${likes} likes`}
-            <button>
+            <button onClick={this.like}>
               Like
             </button>
           </div>
           <div>
-            {`Added by ${user.name}`}
+            {user ? `Added by ${user.name}` : null}
           </div>
         </div>
       </div>
