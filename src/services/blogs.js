@@ -42,6 +42,18 @@ const update = async (id, newObject) => {
   return response.data;
 };
 
+// Delete a blog (PUT)
+const remove = async (id) => {
+  const config = {
+    headers: {
+      Authorization: token,
+    },
+  };
+
+  const response = await axios.delete(`${baseUrl}/${id}`, config);
+  return response.data;
+};
+
 
 export default {
   setToken,
@@ -49,4 +61,5 @@ export default {
   getAll,
   create,
   update,
+  remove,
 };

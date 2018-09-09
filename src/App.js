@@ -70,7 +70,7 @@ export default class App extends React.Component {
                     formRef={this.blogForm}
                   />
                 </Hidable>
-                <BlogList blogs={blogs} />
+                <BlogList blogs={blogs} loggedInUser={user} />
               </div>
             )
             : <LoginForm setUser={this.setUser} />

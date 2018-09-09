@@ -9,6 +9,7 @@ export default class Blog extends React.Component {
     this.state = {
       expanded: false,
       likes: props.blog.likes,
+      removed: false,
     };
   }
 
@@ -32,13 +33,24 @@ export default class Blog extends React.Component {
     this.setState({ likes: this.state.likes + 1 });
   };
 
+  remove = () => {
+    const { _id } = this.props.blog;
+
+    if (!window.confirm('Are you sure?')) return null;
+
+    blogService.remove(_id);
+    this.setState({ removed: true });
+  };
+
 
   render() {
-    const { expanded, likes } = this.state;
+    const { expanded, likes, removed } = this.state;
     const { title, author, url, user } = this.props.blog;
+    const { loggedInUser } = this.props;
 
     const blogStyle = {
       padding: '10 0',
+      display: removed ? 'none' : '',
     };
 
     return (
@@ -60,6 +72,11 @@ export default class Blog extends React.Component {
           </div>
           <div>
             {user ? `Added by ${user.name}` : null}
+          </div>
+          <div style={{ display: (!user || user.username === loggedInUser.username) ? '' : 'none' }}>
+            <button onClick={this.remove}>
+              Remove
+            </button>
           </div>
         </div>
       </div>
