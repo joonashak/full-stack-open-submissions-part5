@@ -17,7 +17,10 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    blogService.getAll().then(blogs => this.setState({ blogs }));
+    blogService.getAll().then((blogs) => {
+      const ordered = blogs.sort((a, b) => b.likes - a.likes);
+      this.setState({ blogs: ordered });
+    });
 
     const authenticatedUser = window.localStorage.getItem('authenticatedUser');
 
