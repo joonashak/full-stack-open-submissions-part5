@@ -3,6 +3,7 @@ import blogService from './services/blogs';
 import LoginForm from './components/LoginForm';
 import BlogList from './components/BlogList';
 import NewBlog from './components/NewBlog';
+import Hidable from './components/Hidable';
 
 
 export default class App extends React.Component {
@@ -57,7 +58,15 @@ export default class App extends React.Component {
                   {`${user.name} logged in.`}
                   <button onClick={this.logout}>Log Out</button>
                 </div>
-                <NewBlog addBlog={this.addBlog} />
+                <Hidable
+                  buttonLabel="Create New Blog"
+                  ref={component => this.blogForm = component}
+                >
+                  <NewBlog
+                    addBlog={this.addBlog}
+                    formRef={this.blogForm}
+                  />
+                </Hidable>
                 <BlogList blogs={blogs} />
               </div>
             )

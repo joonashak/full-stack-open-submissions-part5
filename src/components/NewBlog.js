@@ -22,7 +22,7 @@ export default class NewBlog extends React.Component {
     event.preventDefault();
 
     const { title, author, url } = this.state;
-    const { addBlog } = this.props;
+    const { addBlog, formRef } = this.props;
 
     const newBlog = {
       title,
@@ -40,6 +40,8 @@ export default class NewBlog extends React.Component {
         author: '',
         url: '',
       });
+
+      formRef.toggleVisibility();
 
       setTimeout(() => {
         this.setState({ notification: null });
