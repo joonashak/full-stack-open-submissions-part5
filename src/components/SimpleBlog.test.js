@@ -5,6 +5,7 @@ import SimpleBlog from './SimpleBlog';
 
 describe('<SimpleBlog />', () => {
   let component;
+  let handler;
 
   beforeEach(() => {
     const blog = {
@@ -13,9 +14,9 @@ describe('<SimpleBlog />', () => {
       likes: 3,
     };
 
-    const onClick = jest.fn();
+    handler = jest.fn();
 
-    component = shallow(<SimpleBlog blog={blog} onClick={onClick} />);
+    component = shallow(<SimpleBlog blog={blog} onClick={handler} />);
   });
 
   it('Renders title', () => {
@@ -31,5 +32,12 @@ describe('<SimpleBlog />', () => {
   it('Renders likes', () => {
     const target = component.find('.likes');
     expect(target.text()).toContain('3 likes');
+  });
+
+  it('Button calls correctly multiple times', () => {
+    const target = component.find('button');
+    target.simulate('click');
+    target.simulate('click');
+    expect(handler.mock.calls.length).toBe(2);
   });
 });
