@@ -3,8 +3,6 @@ import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 
-// Local Storage mock
-
 let savedItems = {}
 
 const localStorageMock = {
@@ -12,7 +10,7 @@ const localStorageMock = {
     savedItems[key] = item;
   },
   getItem: key => savedItems[key],
-  clear: savedItems = {},
+  clear: () => savedItems = {},
 };
 
-window.localStorage = localStorageMock;
+global.localStorage = localStorageMock;
